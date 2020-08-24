@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "definitions": {
+    "TYPE": {
+      "type": "string",
+      "enum": ["mysql", "postgresql", "sls", "other"]
+    },
+    "SQL_TYPE": {
+      "type": "string",
+      "enum": ["SELECT", "INSERT", "DELETE", "UPDATE"]
+    },
+    "VAR_TYPE": {
+      "type": "string",
+      "enum": ["string", "number", "date", "boolean", "object"]
+    },
+    "FIELD": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/VAR_TYPE"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "object"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "type": "string"
+              }
+            },
+            "required": ["ref"]
+          }
+        }
+      ],
+      "required": ["key", "type"]
+    },
+    "PARAMETER": {
+      "type": "object",
+      "properties": {
+        "__array": {
+          "description": "是否被渲染为数组",
+          "type": "boolean"
+        },
+        "__object": {
+          "description": "渲染为对象",
+          "type": "boolean"
+        },
+        "__single": {
+          "description": "渲染为普通值",
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/FIELD" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "__object": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "__single": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "__object": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "__single": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "properties": {
+    "tag": {
+      "description": "数据库对应的标签。",
+      "type": "string"
+    },
+    "type": {
+      "description": "数据库对应的类型",
+      "$ref": "#/definitions/TYPE"
+    },
+    "sql_type": {
+      "description": "SQL语句的类型",
+      "$ref": "#/definitions/SQL_TYPE"
+    },
+    "template": {
+      "description": "生成sql的模板",
+      "type": "string"
+    },
+    "group": {
+      "description": "所在的查询器分组",
+      "type": "string"
+    },
+    "name": {
+      "description": "查询器名称",
+      "type": "string"
+    },
+    "parameter": {
+      "$ref": "#/definitions/PARAMETER"
+    },
+    "result": {
+      "type": "object",
+      "properties": {
+        "single": {
+          "description": "是否是单行数据",
+          "type": "boolean"
+        },
+        "fields": {
+          "type": "array",
+          "description": "返回结果集的字段集合",
+          "items": {
+            "$ref": "#/definitions/FIELD"
+          }
+        }
+      }
+    }
+  }
+}

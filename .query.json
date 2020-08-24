@@ -1,5 +1,4 @@
 {
-  "$schema": "./public/schema/config.json",
   "config": [
     {
       "tag": "m",
