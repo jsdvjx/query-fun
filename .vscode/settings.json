@@ -6,6 +6,13 @@
                 ".query.json"
             ],
             "url": "https://json.cat/schema/config.json"
+        },
+        {
+          "fileMatch": [
+            "*.qn.json",
+            "*.qn.yaml"
+          ],
+          "url": "https://json.cat/schema/query.json"
         }
     ]
 }

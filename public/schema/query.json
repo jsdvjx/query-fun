@@ -109,6 +109,10 @@
       "description": "数据库对应的标签。",
       "type": "string"
     },
+    "description": {
+      "definition": "说明",
+      "type": "string"
+    },
     "type": {
       "description": "数据库对应的类型",
       "$ref": "#/definitions/TYPE"
@@ -119,7 +123,10 @@
     },
     "template": {
       "description": "生成sql的模板",
-      "type": "string"
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
     "group": {
       "description": "所在的查询器分组",
@@ -148,5 +155,15 @@
         }
       }
     }
-  }
+  },
+  "required": [
+    "result",
+    "parameter",
+    "group",
+    "name",
+    "template",
+    "sql_type",
+    "type",
+    "tag"
+  ]
 }
