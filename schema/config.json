@@ -1,0 +1,238 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {
+    "config": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["mysql", "postgresql", "sls", "other"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "mysql"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "option": {
+                "$ref": "#/definitions/mysql"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "sls"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "option": {
+                "$ref": "#/definitions/sls"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "postgresql"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "option": {
+                "$ref": "#/definitions/postgresql"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "other"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "option": {
+                "type": "object"
+              },
+              "class_path": {
+                "type": "string"
+              }
+            },
+            "required": ["class_path"]
+          }
+        }
+      ]
+    },
+    "sls": {
+      "title": "sls",
+      "type": "object",
+      "properties": {
+        "net": {
+          "enum": ["intranet"],
+          "type": "string",
+          "title": "net"
+        },
+        "endpoint": {
+          "type": "string",
+          "title": "endpoint"
+        },
+        "region": {
+          "type": "string",
+          "title": "region"
+        },
+        "accessKeyId": {
+          "type": "string",
+          "title": "accessKeyId"
+        },
+        "accessKeySecret": {
+          "type": "string",
+          "title": "accessKeySecret"
+        },
+        "projectName": {
+          "type": "string",
+          "title": "projectName"
+        },
+        "logStore": {
+          "type": "string",
+          "title": "logStore"
+        }
+      },
+      "required": ["accessKeyId", "accessKeySecret", "logStore", "projectName"]
+    },
+    "mysql": {
+      "title": "mysql",
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string",
+          "title": "user"
+        },
+        "password": {
+          "description": "The password of that MySQL user",
+          "type": "string",
+          "title": "password"
+        },
+        "database": {
+          "description": "Name of the database to use for this connection",
+          "type": "string",
+          "title": "database"
+        },
+        "charset": {
+          "description": "The charset for the connection. This is called 'collation' in the SQL-level of MySQL (like utf8_general_ci).\nIf a SQL-level charset is specified (like utf8mb4) then the default collation for that charset is used.\n(Default: 'UTF8_GENERAL_CI')",
+          "type": "string",
+          "title": "charset"
+        },
+        "host": {
+          "description": "The hostname of the database you are connecting to. (Default: localhost)",
+          "type": "string",
+          "title": "host"
+        },
+        "port": {
+          "description": "The port number to connect to. (Default: 3306)",
+          "type": "number",
+          "title": "port"
+        },
+        "timezone": {
+          "description": "The timezone used to store local dates. (Default: 'local')",
+          "type": "string",
+          "title": "timezone"
+        },
+        "connectTimeout": {
+          "description": "The milliseconds before a timeout occurs during the initial connection to the MySQL server. (Default: 10 seconds)",
+          "type": "number",
+          "title": "connectTimeout"
+        }
+      }
+    },
+    "postgresql": {
+      "title": "postgresql",
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string",
+          "title": "user"
+        },
+        "database": {
+          "type": "string",
+          "title": "database"
+        },
+        "password": {
+          "type": "string",
+          "title": "password"
+        },
+        "port": {
+          "type": "number",
+          "title": "port"
+        },
+        "host": {
+          "type": "string",
+          "title": "host"
+        },
+        "connectionString": {
+          "type": "string",
+          "title": "connectionString"
+        },
+        "keepAlive": {
+          "type": "boolean",
+          "title": "keepAlive"
+        },
+        "statement_timeout": {
+          "type": "number",
+          "title": "statement_timeout"
+        },
+        "parseInputDatesAsUTC": {
+          "type": "boolean",
+          "title": "parseInputDatesAsUTC"
+        },
+        "query_timeout": {
+          "type": "number",
+          "title": "query_timeout"
+        },
+        "keepAliveInitialDelayMillis": {
+          "type": "number",
+          "title": "keepAliveInitialDelayMillis"
+        },
+        "idle_in_transaction_session_timeout": {
+          "type": "number",
+          "title": "idle_in_transaction_session_timeout"
+        },
+        "application_name": {
+          "type": "string",
+          "title": "application_name"
+        }
+      }
+    }
+  },
+  "properties": {
+    "path": {
+      "type": "string"
+    },
+    "config": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/config"
+      }
+    }
+  },
+  "required": ["path", "config"]
+}
