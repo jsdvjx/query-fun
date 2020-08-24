@@ -145,6 +145,9 @@
     "result": {
       "type": "object",
       "properties": {
+        "type": {
+          "$ref": "#/definitions/TYPE"
+        },
         "single": {
           "description": "是否是单行数据",
           "type": "boolean"
@@ -156,7 +159,22 @@
             "$ref": "#/definitions/FIELD"
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "object"
+              }
+            }
+          },
+          "then": {
+            "required": ["fields"]
+          }
+        }
+      ],
+      "required": ["type", "single"]
     }
   },
   "required": [

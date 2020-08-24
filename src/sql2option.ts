@@ -14,14 +14,13 @@ export class Sql2Option {
     const sql = sqlAndTag.template.join('\n');
     const sql_type = Sql2Option.getSqlType(sql);
     const tmp = String2Fun.getItemOptions(sql, baseinfo.name + 'Parameter');
-    console.log(JSON.stringify(tmp));
     return {
       ...sqlAndTag,
       template: sqlAndTag.template.map((i) => i.replace(/{\[.+?\]}/g, '')),
       sql_type,
       ...tmp,
       ...baseinfo,
-      example: {},
+      example: tmp.example,
       result: Sql2Option.getResult(sql_type),
     };
   };
@@ -47,7 +46,7 @@ export class Sql2Option {
     const map = Sql2Option.load(path);
     Object.entries(map).map(([group, list]) => {
       writeFileSync(
-        ph.join(path, group, `${group}.qn.json`),
+        ph.join(path, group, `${group}.Q.json`),
         JSON.stringify({ group, list }, null, 2),
       );
     });
@@ -65,7 +64,7 @@ export class Sql2Option {
   private static getResult = (sqlType: SqlType): Option['result'] => {
     return {
       type: sqlType !== 'SELECT' ? 'number' : 'object',
-      single: sqlType === 'SELECT',
+      single: sqlType !== 'SELECT',
     };
   };
   private static getSqlAndTag = (

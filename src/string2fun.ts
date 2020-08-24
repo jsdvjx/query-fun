@@ -1,6 +1,5 @@
 import Mustache = require('mustache');
 import { Reverse, ItemOption } from './reverse';
-import { readFileSync } from 'fs';
 import { CInterface } from './cinterface';
 
 export class String2Fun {

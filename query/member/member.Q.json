@@ -19,17 +19,19 @@
           "fields": [
             {
               "key": "id",
-              "type": "string"
+              "type": "number"
             }
           ]
         }
       ],
-      "example": {},
+      "example": {
+        "id": 32
+      },
       "group": "member",
       "name": "getMember",
       "result": {
         "type": "object",
-        "single": true
+        "single": false
       }
     },
     {
@@ -83,17 +85,29 @@
             },
             {
               "key": "members",
-              "type": "members[]"
+              "type": "object",
+              "ref": "members[]"
             }
           ]
         }
       ],
-      "example": {},
+      "example": {
+        "table": null,
+        "members": [
+          {
+            "name": "test",
+            "nickname": 1,
+            "group": "nick",
+            "age": 12,
+            "created_at": "2018-01-02"
+          }
+        ]
+      },
       "group": "member",
       "name": "insertMember",
       "result": {
         "type": "number",
-        "single": false
+        "single": true
       }
     }
   ]

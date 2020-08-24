@@ -6,7 +6,7 @@
       "url": "https://json.cat/schema/config.json"
     },
     {
-      "fileMatch": ["*.qn.json"],
+      "fileMatch": ["*.Q.json"],
       "url": "https://json.cat/schema/group.json"
     }
   ]

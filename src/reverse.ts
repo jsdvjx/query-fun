@@ -4,21 +4,52 @@ export interface Node {
   name: string;
   items?: Node[];
   type: 'object' | 'number' | 'string' | 'date' | 'boolean';
-  example: any;
+  example?: any;
 }
 export interface ItemOption {
   name: string;
-  fields: { key: string; type: string }[];
+  fields: { key: string; type: string; ref?: string }[];
   __object: boolean;
   __single: boolean;
   __array: boolean;
 }
 export class Reverse {
+  private static setExample = (node: Node, value: any = null): Node => {
+    if (node.type === 'object') {
+      node.example = [
+        node.items.reduce((result, acc) => {
+          result[acc.name] = acc.example ? acc.example : null;
+          return result;
+        }, {} as any),
+      ];
+    } else {
+      switch (node.type) {
+        case 'boolean':
+          node.example = value === 'true';
+          return node;
+        case 'number':
+          if (/^\d+\.[\d]+$/.test(value)) {
+            node.example = parseFloat(value);
+          } else if (/^\d+$/.test(value)) {
+            node.example = parseInt(value);
+          } else {
+            node.example = 1;
+          }
+          return node;
+        case 'date':
+        case 'string':
+          node.example = value;
+          return node;
+      }
+    }
+    return node;
+  };
   static get = (
     str: string,
     objName: string,
   ): { options: ItemOption[]; example: any } => {
     const reg = /{{#([a-zA-Z]{2,})}}[\w\W]+?{{\/\1}}/g;
+
     const getNodes = (sub: string) => {
       const items = (sub.match(/{{([a-zA-Z_]+?)}}/g) || []).map((i) => {
         const name = i.replace('{{', '').replace('}}', '');
@@ -27,18 +58,19 @@ export class Reverse {
           new RegExp(`{{${name}}}{\\[(.+?)\\]}`, 'i'),
         ) || [, null])[1];
         const type = Reverse.guessType(value || 'string');
-        return { name, type, example: value };
+        const result = {
+          name,
+          type,
+        } as Node;
+        return Reverse.setExample(result, value);
       });
       const name = (sub.match(/{{#([a-zA-Z]+?)}}/) || [, objName])[1];
-      return {
+      const result = {
         name,
         items,
         type: items.length > 1 ? 'object' : 'string',
-        example: items.reduce(
-          (result, acc) => ((result[acc.name] = acc.example), result),
-          {} as any,
-        ),
       } as Node;
+      return Reverse.setExample(result);
     };
     const groupByName = (result: Record<string, Node>, acc: Node) => {
       if (acc.name !== objName) {
@@ -97,13 +129,17 @@ export class Reverse {
         __object: true,
         __single: false,
         name: node.name,
-        fields: (node.items || []).map((node) => ({
-          key: node.name,
-          type: CInterface.staticType.includes(node.type)
+        fields: (node.items || []).map((node) => {
+          const type = CInterface.staticType.includes(node.type)
             ? node.type
-            : `${node.name}[]`,
-        })),
-      },
+            : `object`;
+          return {
+            key: node.name,
+            type,
+            ...(type === 'object' ? { ref: node.name + '[]' } : {}),
+          };
+        }),
+      } as ItemOption,
     ]
       .concat(
         ...(node.items || [])
