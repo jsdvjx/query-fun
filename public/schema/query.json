@@ -137,7 +137,10 @@
       "type": "string"
     },
     "parameter": {
-      "$ref": "#/definitions/PARAMETER"
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PARAMETER"
+      }
     },
     "result": {
       "type": "object",

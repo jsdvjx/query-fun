@@ -1,18 +1,13 @@
 {
-    "typescript.tsdk": "node_modules\\typescript\\lib",
-    "json.schemas": [
-        {
-            "fileMatch": [
-                ".query.json"
-            ],
-            "url": "https://json.cat/schema/config.json"
-        },
-        {
-          "fileMatch": [
-            "*.qn.json",
-            "*.qn.yaml"
-          ],
-          "url": "https://json.cat/schema/query.json"
-        }
-    ]
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "json.schemas": [
+    {
+      "fileMatch": [".query.json"],
+      "url": "https://json.cat/schema/config.json"
+    },
+    {
+      "fileMatch": ["*.qn.json"],
+      "url": "https://json.cat/schema/group.json"
+    }
+  ]
 }

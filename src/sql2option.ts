@@ -45,10 +45,10 @@ export class Sql2Option {
   };
   static loadAndSync = (path: string): void => {
     const map = Sql2Option.load(path);
-    Object.entries(map).map(([group, items]) => {
+    Object.entries(map).map(([group, list]) => {
       writeFileSync(
-        ph.join(path, group, `${group}.json`),
-        JSON.stringify(items, null, 2),
+        ph.join(path, group, `${group}.qn.json`),
+        JSON.stringify({ group, list }, null, 2),
       );
     });
   };
