@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import { QueryFun } from '@jsdvjx/query-fun'
+import QueryFun from '@jsdvjx/query-fun'
 
 
 export type GetMemberParameter = void; 
@@ -140,10 +140,10 @@ export interface IOrder extends Record<string,any> {
   }
 }
 
-export type Package = { order: IOrder; member: IMember };
-const querist = QueryFun.build<Package>(
+export type Package = { member : IMember; order : IOrder; };
+const QueristGenerater = QueryFun.build<Package>(
   [`member`,`order`],
-  `C:\\Users\\JinXing\\project\\query-fun\\query`,
+  `query`,
 );
-export default querist;
+export default QueristGenerater;
 

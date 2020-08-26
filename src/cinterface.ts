@@ -2,6 +2,8 @@ import Mustache = require('mustache');
 import { readFileSync } from 'fs';
 import { ItemOption } from './reverse';
 import * as ph from 'path';
+import { String2Fun } from './string2fun';
+import { Sql2Option } from './sql2option';
 
 export class CInterface {
   static staticType = ['string', 'number', 'date', 'boolean', 'object'];
@@ -15,7 +17,8 @@ export class CInterface {
       ).toString(),
       {
         groups: groups.map((i) => `\`${i}\``).join(','),
-        path: `${path.replace(/\\/g,`\\\\`)}`,
+        path: `${path.replace(/\\/g, `\\\\`)}`,
+        package: groups.map((i) => `${i} : I${CInterface.fstUpperCase(i)};`).join(' '),
       },
     );
   };

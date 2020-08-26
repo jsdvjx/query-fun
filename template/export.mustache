@@ -1,4 +1,4 @@
-export type Package = { order: IOrder; member: IMember };
+export type Package = { {{package}} };
 const QueristGenerater = QueryFun.build<Package>(
   [{{&groups}}],
   `{{path}}`,

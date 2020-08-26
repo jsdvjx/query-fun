@@ -31,7 +31,6 @@ program
   .description('build template')
   .action(async (cmd, [, target]) => {
     const config = getConfig(cmd.config);
-    console.log(ph.resolve(config.output, 'Querist.ts'));
     if (config) {
       for (const conf of config.config) {
         await QueryFun.register(conf).init();
@@ -59,7 +58,7 @@ program
           .concat(
             CInterface.export(
               p.map(([group]) => group),
-              ph.resolve(config.path),
+              config.path,
             ),
           )
           .join('\n');

@@ -9,7 +9,6 @@ export default class mysql extends IQuerist<_mysql.ConnectionOptions> {
   query: <R = any>(sql: string) => Promise<R[]> = (sql) => {
     const result = [];
     return new Promise((resolve, reject) => {
-      console.log(sql)
       this.client
         .query(sql)
         .on('result', (row) => {
