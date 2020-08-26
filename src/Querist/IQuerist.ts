@@ -14,7 +14,7 @@ export abstract class IQuerist<T extends Record<string, any>> {
   abstract close: () => void;
   abstract query: <R = any>(sql: string) => Promise<R[]>;
   abstract init: () => Promise<boolean>;
-  static pool: Record<string, IQuerist<any>>;
+  static pool: Record<string, IQuerist<any>> = {};
   static create = <O extends IQueristOpt>(
     option: O,
     cls?: new (option: O) => IQuerist<O>,
@@ -24,7 +24,7 @@ export abstract class IQuerist<T extends Record<string, any>> {
       const path = `./${option.type.toLocaleLowerCase()}`;
       try {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        cls = (require(option.class_path || path) as {
+        cls= (require(option.class_path || path) as {
           default: new (option: O) => IQuerist<O>;
         }).default;
       } catch (e) {

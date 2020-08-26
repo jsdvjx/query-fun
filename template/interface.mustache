@@ -1,0 +1,9 @@
+export interface I{{name}} extends Record<string,any> {
+
+  {{#list}}
+  {{name}} :{
+    PARAMETER: {{type}}Parameter;
+    RESULT: {{type}}Result;
+  }
+  {{/list}}
+}

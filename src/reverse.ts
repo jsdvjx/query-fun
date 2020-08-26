@@ -15,6 +15,29 @@ export interface ItemOption {
 }
 export class Reverse {
   private static setExample = (node: Node, value: any = null): Node => {
+    const setType = (_node: Node) => {
+      switch (_node.type) {
+        case 'boolean':
+          _node.example = value === 'true';
+          return _node;
+        case 'number':
+          if (/^\d+\.[\d]+$/.test(value)) {
+            _node.example = parseFloat(value);
+          } else if (/^\d+$/.test(value)) {
+            _node.example = parseInt(value);
+          } else {
+            _node.example = 1;
+          }
+          return _node;
+        case 'date':
+        case 'string':
+          _node.example = value;
+          return _node;
+      }
+    };
+    if (!node.items) {
+      return setType(node);
+    }
     if (node.type === 'object') {
       node.example = [
         node.items.reduce((result, acc) => {
@@ -23,24 +46,7 @@ export class Reverse {
         }, {} as any),
       ];
     } else {
-      switch (node.type) {
-        case 'boolean':
-          node.example = value === 'true';
-          return node;
-        case 'number':
-          if (/^\d+\.[\d]+$/.test(value)) {
-            node.example = parseFloat(value);
-          } else if (/^\d+$/.test(value)) {
-            node.example = parseInt(value);
-          } else {
-            node.example = 1;
-          }
-          return node;
-        case 'date':
-        case 'string':
-          node.example = value;
-          return node;
-      }
+      return setType(node);
     }
     return node;
   };
@@ -147,5 +153,26 @@ export class Reverse {
           .map(Reverse.toItem),
       )
       .reverse();
+  };
+  static objToItem = (obj: Record<string, any>, name: string): ItemOption => {
+    return {
+      __array: true,
+      __object: true,
+      __single: false,
+      name,
+      fields: Object.entries(obj).map(([key, value]) => {
+        let type: any = typeof value;
+        type =
+          type === 'object'
+            ? value instanceof Date
+              ? 'date'
+              : 'string'
+            : type;
+        return {
+          key,
+          type,
+        };
+      }),
+    };
   };
 }

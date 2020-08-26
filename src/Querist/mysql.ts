@@ -1,7 +1,7 @@
 import { IQuerist } from './IQuerist';
 
 import * as _mysql from 'mysql2';
-export class mysql extends IQuerist<_mysql.ConnectionOptions> {
+export default class mysql extends IQuerist<_mysql.ConnectionOptions> {
   type = 'MYSQL';
   close: () => void = () => {
     this.client.destroy();
@@ -9,6 +9,7 @@ export class mysql extends IQuerist<_mysql.ConnectionOptions> {
   query: <R = any>(sql: string) => Promise<R[]> = (sql) => {
     const result = [];
     return new Promise((resolve, reject) => {
+      console.log(sql)
       this.client
         .query(sql)
         .on('result', (row) => {

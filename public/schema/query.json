@@ -45,7 +45,7 @@
       ],
       "required": ["key", "type"]
     },
-    "PARAMETER": {
+    "OBJECT": {
       "type": "object",
       "properties": {
         "__array": {
@@ -139,42 +139,11 @@
     "parameter": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/PARAMETER"
+        "$ref": "#/definitions/OBJECT"
       }
     },
     "result": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/TYPE"
-        },
-        "single": {
-          "description": "是否是单行数据",
-          "type": "boolean"
-        },
-        "fields": {
-          "type": "array",
-          "description": "返回结果集的字段集合",
-          "items": {
-            "$ref": "#/definitions/FIELD"
-          }
-        }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "object"
-              }
-            }
-          },
-          "then": {
-            "required": ["fields"]
-          }
-        }
-      ],
-      "required": ["type", "single"]
+      "$ref": "#/definitions/OBJECT"
     }
   },
   "required": [

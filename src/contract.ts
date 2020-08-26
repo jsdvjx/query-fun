@@ -15,23 +15,7 @@ export interface Option<T extends SqlType = 'SELECT'> {
   template: string[];
   parameter: ItemOption[];
   example: any;
-  result: {
-    single: T extends 'INSERT'
-      ? true
-      : T extends 'UPDATE'
-      ? true
-      : T extends 'DELETE'
-      ? true
-      : boolean;
-    type: T extends 'INSERT'
-      ? 'number'
-      : T extends 'UPDATE'
-      ? 'number'
-      : T extends 'DELETE'
-      ? 'number'
-      : 'number' | 'string' | 'date' | 'boolean' | 'object';
-    schema?: any;
-  };
+  result: ItemOption;
 }
 export type ArrayType<Type> = Type extends Array<infer X> ? X : never;
 export interface CallerFunOverwrite<P extends any[], R> {
@@ -46,3 +30,26 @@ export declare type Caller<
 > = {
   [P in keyof T['parameter']]: CallerFun<T['parameter'][P], T['result'][P]>;
 };
+
+export type DynamicInterface<
+  I extends Record<string, { RESULT: any; PARAMETER: any }>
+> = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  [key in keyof I]: I[key]['PARAMETER'] extends void // eslint-disable-next-line @typescript-eslint/ban-types
+    ? () => Promise<
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        I[key]['RESULT'] extends void
+          ? never // eslint-disable-next-line @typescript-eslint/ban-types
+          : I[key]['RESULT']
+      >
+    : (
+        parameter: I[key]['PARAMETER'],
+      ) => Promise<
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        I[key]['RESULT'] extends void
+          ? never // eslint-disable-next-line @typescript-eslint/ban-types
+          : I[key]['RESULT']
+      >;
+};
+
+

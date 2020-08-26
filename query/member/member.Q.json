@@ -5,7 +5,7 @@
       "tag": "repare",
       "type": "mysql",
       "template": [
-        "select * from members where id ={{id}}",
+        "select * from members",
         "{{! 第一行是type,tag得格式}}",
         ""
       ],
@@ -13,25 +13,254 @@
       "parameter": [
         {
           "__array": false,
-          "__object": false,
-          "__single": true,
+          "__object": true,
+          "__single": false,
           "name": "getMemberParameter",
-          "fields": [
-            {
-              "key": "id",
-              "type": "number"
-            }
-          ]
+          "fields": []
         }
       ],
-      "example": {
-        "id": 32
-      },
+      "example": {},
       "group": "member",
       "name": "getMember",
       "result": {
-        "type": "object",
-        "single": false
+        "__array": true,
+        "__object": true,
+        "__single": false,
+        "name": "getMemberResult",
+        "fields": [
+          {
+            "key": "id",
+            "type": "number"
+          },
+          {
+            "key": "accid",
+            "type": "string"
+          },
+          {
+            "key": "username",
+            "type": "string"
+          },
+          {
+            "key": "password",
+            "type": "string"
+          },
+          {
+            "key": "nickname",
+            "type": "string"
+          },
+          {
+            "key": "email",
+            "type": "string"
+          },
+          {
+            "key": "mobile",
+            "type": "string"
+          },
+          {
+            "key": "gender",
+            "type": "number"
+          },
+          {
+            "key": "realname",
+            "type": "string"
+          },
+          {
+            "key": "license_type",
+            "type": "number"
+          },
+          {
+            "key": "license_img_back",
+            "type": "string"
+          },
+          {
+            "key": "license_img_front",
+            "type": "string"
+          },
+          {
+            "key": "is_license",
+            "type": "number"
+          },
+          {
+            "key": "license_code",
+            "type": "string"
+          },
+          {
+            "key": "license_expired_at",
+            "type": "date"
+          },
+          {
+            "key": "score",
+            "type": "number"
+          },
+          {
+            "key": "avatar",
+            "type": "string"
+          },
+          {
+            "key": "signature",
+            "type": "string"
+          },
+          {
+            "key": "area_code",
+            "type": "number"
+          },
+          {
+            "key": "area",
+            "type": "string"
+          },
+          {
+            "key": "province",
+            "type": "string"
+          },
+          {
+            "key": "city",
+            "type": "string"
+          },
+          {
+            "key": "address",
+            "type": "string"
+          },
+          {
+            "key": "salt",
+            "type": "string"
+          },
+          {
+            "key": "status",
+            "type": "number"
+          },
+          {
+            "key": "payment_pwd",
+            "type": "string"
+          },
+          {
+            "key": "credit",
+            "type": "number"
+          },
+          {
+            "key": "recommend_code",
+            "type": "string"
+          },
+          {
+            "key": "rec_member_id",
+            "type": "number"
+          },
+          {
+            "key": "is_authorization",
+            "type": "number"
+          },
+          {
+            "key": "authorization_at",
+            "type": "date"
+          },
+          {
+            "key": "recommand_at",
+            "type": "date"
+          },
+          {
+            "key": "expired_at",
+            "type": "date"
+          },
+          {
+            "key": "created_at",
+            "type": "date"
+          },
+          {
+            "key": "updated_at",
+            "type": "date"
+          },
+          {
+            "key": "agent_level_id",
+            "type": "number"
+          },
+          {
+            "key": "member_level_id",
+            "type": "number"
+          },
+          {
+            "key": "agent_rule_id",
+            "type": "number"
+          },
+          {
+            "key": "reset_pwd_time",
+            "type": "date"
+          },
+          {
+            "key": "lv_money",
+            "type": "string"
+          },
+          {
+            "key": "purchase_money",
+            "type": "string"
+          },
+          {
+            "key": "return_money",
+            "type": "string"
+          },
+          {
+            "key": "award_money",
+            "type": "string"
+          },
+          {
+            "key": "security_mode",
+            "type": "number"
+          },
+          {
+            "key": "optimistic_lock",
+            "type": "number"
+          },
+          {
+            "key": "golden_pound_number",
+            "type": "string"
+          },
+          {
+            "key": "is_days_group",
+            "type": "number"
+          },
+          {
+            "key": "zhanggui_theme_id",
+            "type": "number"
+          },
+          {
+            "key": "agent_shop_theme_id",
+            "type": "number"
+          },
+          {
+            "key": "service_package",
+            "type": "number"
+          },
+          {
+            "key": "is_edited_nickname",
+            "type": "number"
+          },
+          {
+            "key": "is_edited_gender",
+            "type": "number"
+          },
+          {
+            "key": "is_star",
+            "type": "number"
+          },
+          {
+            "key": "is_click_star",
+            "type": "number"
+          },
+          {
+            "key": "wechat_id",
+            "type": "string"
+          },
+          {
+            "key": "wechat_qrcode",
+            "type": "string"
+          },
+          {
+            "key": "user_global_id",
+            "type": "number"
+          },
+          {
+            "key": "sync_wk_status",
+            "type": "number"
+          }
+        ]
       }
     },
     {
@@ -106,8 +335,16 @@
       "group": "member",
       "name": "insertMember",
       "result": {
-        "type": "number",
-        "single": true
+        "name": "insertMemberResult",
+        "__array": false,
+        "__single": true,
+        "__object": false,
+        "fields": [
+          {
+            "key": "row",
+            "type": "number"
+          }
+        ]
       }
     }
   ]

@@ -3,9 +3,17 @@ import { Reverse, ItemOption } from './reverse';
 import { CInterface } from './cinterface';
 
 export class String2Fun {
-  static create = <P>(str: string) => {
+  static create = <P>(str: string): ((opt: any) => string) => {
+    const defaultName = (str.match(/{{([a-zA-Z]+)?}}/) || [, 'default'])[1];
     return (params: P): string => {
-      return Mustache.render(str, params);
+      if (typeof params === 'object') {
+        return Mustache.render(str, params);
+      } else {
+        return Mustache.render(
+          str,
+          Object.fromEntries([[defaultName, params]]),
+        );
+      }
     };
   };
 

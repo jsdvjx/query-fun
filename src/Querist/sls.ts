@@ -2,7 +2,7 @@ import { IQuerist } from './IQuerist';
 
 import SlsClient, { LogConfig } from 'sls-client';
 import dayjs = require('dayjs');
-export class sls extends IQuerist<LogConfig> {
+export default class sls extends IQuerist<LogConfig> {
   type = 'SLS';
   close: () => void = () => {
     console.log('has not implement');

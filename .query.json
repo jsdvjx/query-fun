@@ -1,24 +1,17 @@
 {
   "config": [
     {
-      "tag": "m",
+      "tag": "repare",
       "type": "mysql",
       "option": {
-        "host": "rm-bp1xx57347jcv9fy3ho.mysql.rds.aliyuncs.com",
+        "host": "wukong-test.rwlb.rds.aliyuncs.com",
         "password": "sxkj112233@9834134",
         "database": "wukong_spare",
         "port": 3306,
         "user": "wukong_php"
       }
-    },
-    {
-      "type": "other",
-      "option": {
-        "test": ""
-      },
-      "class_path": "",
-      "tag": ""
     }
   ],
-  "path": "./query"
+  "path": "query",
+  "output": "src"
 }
