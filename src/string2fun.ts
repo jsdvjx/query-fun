@@ -4,9 +4,9 @@ import { CInterface } from './cinterface';
 
 export class String2Fun {
   static create = <P>(str: string): ((opt: any) => string) => {
-    const defaultName = (str.match(/{{([a-zA-Z]+)?}}/) || [, 'default'])[1];
+    const defaultName = (str.match(/{{#*([a-zA-Z]+)?}}/) || [, 'default'])[1];
     return (params: P): string => {
-      if (typeof params === 'object') {
+      if (typeof params === 'object' && !(params instanceof Array)) {
         return Mustache.render(str, params);
       } else {
         return Mustache.render(
