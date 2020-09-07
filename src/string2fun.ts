@@ -27,7 +27,7 @@ export class String2Fun {
     if (
       options.length === 2 &&
       options[1].fields.length === 1 &&
-      options[1].fields[0].type === options[0].name + '[]'
+      options[1].fields[0].ref === options[0].name + '[]'
     ) {
       const [sub, root] = options;
       const tmp = {

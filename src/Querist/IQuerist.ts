@@ -6,7 +6,7 @@ export type IQueristOpt<
   tag: string;
   type: QueristType;
   option: T;
-  class_path: Q extends 'other' ? string : undefined;
+  class_path?: Q extends 'other' ? string : undefined;
 };
 export abstract class IQuerist<T extends Record<string, any>> {
   abstract type: string;
@@ -24,9 +24,7 @@ export abstract class IQuerist<T extends Record<string, any>> {
       const path = `./${option.type.toLocaleLowerCase()}`;
       try {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        cls= (require(option.class_path || path) as {
-          default: new (option: O) => IQuerist<O>;
-        }).default;
+        cls = Object.values(require(option.class_path || path)).pop() as any;
       } catch (e) {
         console.error(e);
         return null;
