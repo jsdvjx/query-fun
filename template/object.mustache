@@ -3,4 +3,4 @@
   {{key}} : {{type}};
   {{/fields}}
 }{{#__array}}[]{{/__array}}{{/__object}}
-{{#__single}}export type {{name}} = {{fields.0.type}}; {{/__single}}
+{{#__single}}{{^__object}}export type {{name}} = {{fields.0.type}}; {{/__object}}{{/__single}}

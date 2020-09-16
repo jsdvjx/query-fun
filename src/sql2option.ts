@@ -87,6 +87,11 @@ export class Sql2Option {
           for (const item of list) {
             if (i.name === item.name) {
               set.delete(item);
+              Object.entries(i.result)
+                .filter(([key]) => key.startsWith('__'))
+                .forEach(([key, value]) => {
+                  item.result[key] = value;
+                });
               result.list[idx] = item;
               return;
             }

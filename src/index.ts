@@ -65,7 +65,7 @@ export default class QueryFun {
         return result;
       }, {} as Record<string, any>);
     }
-    return QueryFun.repo[path] as any;
+    return QueryFun.repo[name] as any;
   };
   static getDemo = (opt: Option): Promise<any> => {
     return QueryFun.create({ ...opt, template: [...opt.template, 'limit 10'] })(
