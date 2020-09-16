@@ -55,12 +55,12 @@ export default class QueryFun {
       path = './';
     }
     path = ph.resolve(path, name as string, `${name}.Q.json`);
-    if (!QueryFun.repo[path]) {
+    if (!QueryFun.repo[name]) {
       const { list } = JSON.parse(readFileSync(path).toString()) as {
         group: string;
         list: Option[];
       };
-      QueryFun.repo[path] = list.reduce((result, acc) => {
+      QueryFun.repo[name] = list.reduce((result, acc) => {
         result[acc.name] = QueryFun.create(acc);
         return result;
       }, {} as Record<string, any>);

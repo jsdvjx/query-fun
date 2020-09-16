@@ -11,7 +11,7 @@ import { CInterface } from '../cinterface';
 const path = process.cwd();
 const imports = [
   `import { Dayjs } from 'dayjs';`,
-  `import QueryFun from '@jsdvjx/query-fun'`,
+  `import QueryFun,{IWrap} from '@jsdvjx/query-fun'`,
   '',
 ];
 const getConfig = (path: string) => {
